@@ -15,9 +15,12 @@ class UserSedder extends Seeder
     public function run()
     {
         User::create([
-            'name'=>'admin',
-            'email'=>'admin@periksa.com',
-            'password'=>bcrypt('admin'),
-            'is_admin'=>1]);
+            'name' => 'HZ',
+            'email' => 'admin@periksa.com',
+            'username' => 'admin',
+            'password' => bcrypt('admin'),
+            'is_admin' => 1,
+            'is_active' => 1,
+        ]);
     }
 }
