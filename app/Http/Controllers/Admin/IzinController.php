@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Requests\StoreIzinRequest;
+use App\Http\Requests\UpdateIzinRequest;
+use App\Http\Requests\MassDestroyIzinRequest;
+use App\Models\Izin;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class PageController extends Controller
+class IzinController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +19,9 @@ class PageController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        $permissions = Izin::all();
 
-        return view('admin.pages.index', compact('users'));
+        return view('admin.izin.index', compact('permissions'));
     }
 
     /**
@@ -27,7 +31,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.izin.create');
     }
 
     /**
@@ -36,9 +40,11 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreIzinRequest $request)
     {
-        //
+        $permission = izin::create($request->all());
+
+        return redirect()->route('admin.izin.index');
     }
 
     /**
@@ -58,9 +64,11 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Izin $izin)
     {
-        //
+        return view('admin.izin.edit',  [
+            'izin' => $izin
+        ]);
     }
 
     /**
@@ -70,9 +78,11 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateIzinRequest $request, Izin $izin)
     {
-        //
+        $izin->update($request->all());
+
+        return redirect()->route('admin.izin.index')->with('success', 'Data berhasil diubah');
     }
 
     /**
@@ -81,18 +91,17 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Izin $izin)
     {
-        //
+        $izin->delete();
+
+        return back();
     }
 
-    public function changeStatus(Request $request)
+    public function massDestroy(MassDestroyIzinRequest $request)
     {
+        Izin::whereIn('id', request('ids'))->delete();
 
-        $user = User::find($request->user_id);
-        $user->is_active = $request->is_active;
-        $user->save();
-
-        return response()->json(['success' => 'Status change successfully.']);
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

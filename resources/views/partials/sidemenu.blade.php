@@ -1,34 +1,57 @@
 <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
-    <div class="text-center mt-2">
-        <img src="{{ asset('img/logo.png') }}" />
-    </div>
+
     <ul class="c-sidebar-nav">
-        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route('home') }}">
+        <li class="c-sidebar-nav-title"><a class="c-sidebar-nav-link" href="{{ route('home') }}">
                 <svg class="c-sidebar-nav-icon">
-                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
-                </svg>Dashboard </a></li>
+                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-shield-alt') }}"></use>
+                </svg> {{ trans('panel.site_title') }} </a></li>
 
         @if (auth()->user()->is_admin)
         <li class="c-sidebar-nav-title">Admin Pages</li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="{{ route('admin.pages.index') }}">
+            <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle">
                 <svg class="c-sidebar-nav-icon">
                     <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-puzzle') }}"></use>
-                </svg> Master
+                </svg> Master Setting
             </a>
             <ul class="c-sidebar-nav-dropdown-items">
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="base/breadcrumb.html"><span
-                            class="c-sidebar-nav-icon"></span>User Aplikasi</a></li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route('admin.pages.index') }}">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user-x') }}"></use>
+                        </svg>
+                        <span class="c-sidebar-nav-icon"></span>Daftar User</a></li>
+            </ul>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="base/breadcrumb.html">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-lock-unlocked') }}"></use>
+                        </svg>
+                        <span class="c-sidebar-nav-icon"></span>Role User</a></li>
+            </ul>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route("admin.izin.index") }}">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-sync') }}"></use>
+                        </svg>
+                        <span class="c-sidebar-nav-icon"></span> {{ trans('cruds.permission.title') }}</a></li>
             </ul>
         </li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
                 class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                 <svg class="c-sidebar-nav-icon">
                     <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-puzzle') }}"></use>
-                </svg> Base</a>
+                </svg>Master Data</a>
             <ul class="c-sidebar-nav-dropdown-items">
                 <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="base/breadcrumb.html"><span
-                            class="c-sidebar-nav-icon"></span> Breadcrumb</a></li>
+                            class="c-sidebar-nav-icon"></span> Kode Unit</a></li>
+            </ul>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="base/breadcrumb.html"><span
+                            class="c-sidebar-nav-icon"></span> Daftar Penyedia</a></li>
+            </ul>
+            <ul class="c-sidebar-nav-dropdown-items">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="base/breadcrumb.html"><span
+                            class="c-sidebar-nav-icon"></span> Kontrak Kerja</a></li>
             </ul>
         </li>
         @endif

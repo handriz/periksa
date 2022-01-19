@@ -22,7 +22,12 @@ Route::get('/', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'is_admin'], function () {
-        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => "\App\Http\Controllers\Admin", 'middleware' => 'is_admin'], function () {
+        Route::resource('pages', 'PageController');
+        Route::get('changeStatus', 'PageController@changeStatus')->name('pages.changeStatus');
+
+        //izin
+        Route::delete('izin/destroy', 'IzinController@massDestroy')->name('izin.massDestroy');
+        Route::resource('izin', 'IzinController');
     });
 });
