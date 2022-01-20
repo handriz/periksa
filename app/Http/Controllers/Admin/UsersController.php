@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
 
-class PageController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +19,10 @@ class PageController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.pages.index', compact('users'));
+        $users = User::with(['roles'])->get();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -58,9 +63,15 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $roles = Role::pluck('title', 'id');
+
+        $user->load('roles');
+
+        return view('admin.users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -70,9 +81,12 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $user->update($request->all());
+        $user->roles()->sync($request->input('roles', []));
+
+        return redirect()->route('admin.user.index')->with('success', 'User updated!');
     }
 
     /**
@@ -81,9 +95,13 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $user->delete();
+
+        return back();
     }
 
     public function changeStatus(Request $request)
@@ -94,5 +112,12 @@ class PageController extends Controller
         $user->save();
 
         return response()->json(['success' => 'Status change successfully.']);
+    }
+
+    public function massDestroy(MassDestroyUserRequest $request)
+    {
+        User::whereIn('id', request('ids'))->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreIzinRequest;
 use App\Http\Requests\UpdateIzinRequest;
 use App\Http\Requests\MassDestroyIzinRequest;
-use App\Models\Izin;
+use App\Models\Permission;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IzinController extends Controller
+class PermissionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +20,7 @@ class IzinController extends Controller
      */
     public function index()
     {
-        $permissions = Izin::all();
+        $permissions = Permission::all();
 
         return view('admin.izin.index', compact('permissions'));
     }
@@ -42,7 +43,7 @@ class IzinController extends Controller
      */
     public function store(StoreIzinRequest $request)
     {
-        $permission = izin::create($request->all());
+        $permission = Permission::create($request->all());
 
         return redirect()->route('admin.izin.index');
     }
@@ -78,7 +79,7 @@ class IzinController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateIzinRequest $request, Izin $izin)
+    public function update(UpdateIzinRequest $request, Permission $izin)
     {
         $izin->update($request->all());
 

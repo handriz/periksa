@@ -6,8 +6,8 @@
                     <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-shield-alt') }}"></use>
                 </svg> {{ trans('panel.site_title') }} </a></li>
 
-        @if (auth()->user()->is_admin)
         <li class="c-sidebar-nav-title">Admin Pages</li>
+        @can('user_management_access')
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
             <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle">
                 <svg class="c-sidebar-nav-icon">
@@ -15,14 +15,14 @@
                 </svg> Master Setting
             </a>
             <ul class="c-sidebar-nav-dropdown-items">
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route('admin.pages.index') }}">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route('admin.user.index') }}">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user-x') }}"></use>
                         </svg>
                         <span class="c-sidebar-nav-icon"></span>Daftar User</a></li>
             </ul>
             <ul class="c-sidebar-nav-dropdown-items">
-                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="base/breadcrumb.html">
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{{ route("admin.roles.index") }}">
                         <svg class="c-sidebar-nav-icon">
                             <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-lock-unlocked') }}"></use>
                         </svg>
@@ -54,7 +54,7 @@
                             class="c-sidebar-nav-icon"></span> Kontrak Kerja</a></li>
             </ul>
         </li>
-        @endif
+        @endcan
 
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
                 class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">

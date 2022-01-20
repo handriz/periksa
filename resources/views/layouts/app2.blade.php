@@ -81,6 +81,7 @@
         </header>
 
         <div class="c-body">
+          @include('flash-message')
             <main class="c-main">
                 <div class="container-fluid">
                     @if(session('message'))

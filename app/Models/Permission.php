@@ -6,15 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Izin extends Model
+class Permission extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    public $table = 'izins';
+    public $table = 'permissions';
 
     protected $fillable = [
-        'nama_izin',
+        'title',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',

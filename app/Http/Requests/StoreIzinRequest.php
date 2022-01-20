@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\izin;
+use App\Models\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -12,10 +12,10 @@ class StoreIzinRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_izin' => [
+            'title' => [
                 'string',
                 'required',
-                'unique:izins',
+                'unique:permissions',
             ],
         ];
     }

@@ -22,12 +22,18 @@ Route::get('/', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => "\App\Http\Controllers\Admin", 'middleware' => 'is_admin'], function () {
-        Route::resource('pages', 'PageController');
-        Route::get('changeStatus', 'PageController@changeStatus')->name('pages.changeStatus');
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => "\App\Http\Controllers\Admin"], function () {
+
+        //user
+        Route::get('user/destroy', 'UsersController@changeStatus')->name('user.massDestroy');
+        Route::resource('user', 'UsersController');
+        Route::get('changeStatus', 'UsersController@changeStatus')->name('user.changeStatus');
 
         //izin
-        Route::delete('izin/destroy', 'IzinController@massDestroy')->name('izin.massDestroy');
-        Route::resource('izin', 'IzinController');
+        Route::delete('izin/destroy', 'PermissionsController@massDestroy')->name('izin.massDestroy');
+        Route::resource('izin', 'PermissionsController');
+
+        //role
+        Route::resource('roles', 'RolesController');
     });
 });
